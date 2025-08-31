@@ -1,1 +1,1427 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مُبرمجون تحت التأسيس</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B4513;
+      --secondary: #D2691E;
+      --accent: #CD853F;
+      --success: #228B22;
+      --dark: #3E2723;
+      --light: #FFF8E1;
+      --text: #4E342E;
+      --card-bg: rgba(255, 248, 225, 0.95);
+      --shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      --border-radius: 12px;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: 
+        linear-gradient(rgba(139, 69, 19, 0.7), rgba(62, 39, 35, 0.8)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%233E2723' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 660 94 538 269 509 382 605 493'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 578 42 509 382 40-63 126.5 79.5 237 261 102 382 40 599-69 737 127 880'/%3E%3Cpath d='M-222 42L126.5 79.5 237 261 102 382 40 599-69 737-31 229M309 538L295 764'/%3E%3Cpath d='M-222 42L-69 63 40-63 102 382 309 538 509 382 539 269 578 42 509-63 605-63 731-63 660 94 769 229 927 63 840-63 1015-63'/%3E%3C/g%3E%3Cg fill='%233E2723'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='-31' cy='229' r='5'/%3E%3Ccircle cx='-69' cy='63' r='5'/%3E%3Ccircle cx='-69' cy='737' r='5'/%3E%3Ccircle cx='-222' cy='42' r='5'/%3E%3C/g%3E%3C/svg%3E"),
+        #8B4513;
+      color: var(--text);
+      direction: rtl;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    /* Header Styles */
+    header {
+      background: 
+        linear-gradient(rgba(139, 69, 19, 0.9), rgba(160, 82, 45, 0.9));
+      color: #FFF8E1;
+      padding: 1.2rem 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+      border-bottom: 3px solid #3E2723;
+    }
+
+    /* Navigation Styles - Mobile First */
+    .nav-toggle {
+      display: none;
+    }
+
+    .nav-toggle-label {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin-right: 1em;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .nav-toggle-label span,
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+      display: block;
+      background: white;
+      height: 3px;
+      width: 1.8em;
+      border-radius: 2px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+      content: '';
+      position: absolute;
+    }
+
+    .nav-toggle-label span::before {
+      bottom: 7px;
+    }
+
+    .nav-toggle-label span::after {
+      top: 7px;
+    }
+
+    nav {
+      background: 
+        linear-gradient(rgba(62, 39, 35, 0.95), rgba(78, 52, 46, 0.95));
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      border-bottom: 2px solid #5D4037;
+      transform: scale(1, 0);
+      transform-origin: top;
+      transition: transform 0.3s ease-out;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .nav-toggle:checked ~ nav {
+      transform: scale(1, 1);
+      height: auto;
+    }
+
+    nav button {
+      background: transparent;
+      border: none;
+      color: #FFF8E1;
+      padding: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      font-weight: 600;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      text-align: right;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-toggle:checked ~ nav button {
+      opacity: 1;
+      transition: opacity 0.3s ease 0.2s;
+    }
+
+    nav button:hover {
+      background: rgba(210, 105, 30, 0.2);
+      color: #FFD700;
+    }
+
+    nav button i {
+      margin-left: 8px;
+      font-size: 1.1rem;
+    }
+
+    /* Section Styles */
+    section {
+      display: none;
+      padding: 1.2rem;
+      animation: fadeIn 0.5s;
+      width: 95%;
+      margin: 1rem auto;
+      border-radius: var(--border-radius);
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      border: 1px solid #A1887F;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      color: #5D4037;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #8B4513;
+      font-size: 1.4rem;
+      text-align: center;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+      font-weight: 700;
+    }
+
+    /* Home Page Styles */
+    #home {
+      text-align: center;
+    }
+
+    #home p {
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #5D4037;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      padding: 1.2rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #A1887F;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #8B4513, #D2691E, #CD853F);
+    }
+
+    .feature-card h3 {
+      color: #5D4037;
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: #6D4C41;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(90deg, #8B4513, #A0522D);
+      color: #FFF8E1;
+      padding: 0.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba(139, 69, 19, 0.3);
+      border: 1px solid #5D4037;
+    }
+
+    .link-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(139, 69, 19, 0.4);
+    }
+
+    .link-btn i {
+      margin-left: 6px;
+      font-size: 1.1rem;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      margin: 1.5rem 0;
+      padding: 1.2rem;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      border: 1px solid #A1887F;
+    }
+
+    .progress {
+      background: #E0D1C3;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 1rem 0;
+      height: 25px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+      border: 1px solid #8B4513;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #228B22, #32CD32);
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.8rem;
+      line-height: 25px;
+      transition: width 0.5s ease-in-out;
+      position: relative;
+    }
+
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+      margin-bottom: 1.2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid #8B4513;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      min-width: 500px;
+    }
+
+    th, td {
+      padding: 0.8rem;
+      text-align: center;
+      border-bottom: 1px solid #D7CCC8;
+      font-size: 0.85rem;
+    }
+
+    th {
+      background: linear-gradient(90deg, #8B4513, #A0522D);
+      color: #FFF8E1;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Form Elements */
+    textarea, input, select {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.6rem 0;
+      border-radius: 8px;
+      border: 1px solid #A1887F;
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: rgba(255, 248, 225, 0.8);
+      color: #5D4037;
+      transition: all 0.3s ease;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      outline: none;
+      border-color: #8B4513;
+      box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+    }
+
+    button.add {
+      background: linear-gradient(90deg, #8B4513, #A0522D);
+      color: #FFF8E1;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      font-size: 0.9rem;
+      box-shadow: 0 3px 8px rgba(139, 69, 19, 0.3);
+      border: 1px solid #5D4037;
+      margin-top: 0.6rem;
+      width: 100%;
+    }
+
+    button.add:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(139, 69, 19, 0.4);
+    }
+
+    button.add i {
+      margin-left: 6px;
+    }
+
+    /* List Styles */
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1.2rem;
+    }
+
+    li {
+      background: var(--card-bg);
+      margin: 0.8rem 0;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #A1887F;
+      transition: transform 0.2s ease;
+    }
+
+    li:hover {
+      transform: translateX(-5px);
+    }
+
+    .note-content {
+      flex-grow: 1;
+      color: #5D4037;
+      font-size: 0.9rem;
+    }
+
+    .delete-btn {
+      background: #B22222;
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      margin-right: 0.5rem;
+    }
+
+    .delete-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Video List Items */
+    .video-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .video-item .video-meta {
+      font-size: 0.85rem;
+      color: #8B4513;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .video-item .video-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #5D4037;
+      font-size: 1rem;
+    }
+
+    /* Text Styles */
+    .highlight {
+      color: #8B4513;
+      font-weight: 700;
+    }
+
+    .emphasize {
+      font-style: italic;
+      color: #A0522D;
+    }
+
+    .decorative {
+      font-family: 'Cairo', sans-serif;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    /* Stats Section */
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #A1887F;
+      text-align: center;
+      flex: 1 1 120px;
+      min-width: 120px;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #8B4513;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #6D4C41;
+    }
+
+    /* Calendar View */
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .calendar-day {
+      background: var(--card-bg);
+      padding: 0.5rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border: 1px solid #A1887F;
+      font-size: 0.8rem;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .calendar-day:hover {
+      transform: scale(1.05);
+    }
+
+    .calendar-day.current {
+      background: rgba(139, 69, 19, 0.2);
+      font-weight: bold;
+      box-shadow: 0 0 0 2px #8B4513;
+    }
+
+    .calendar-day.completed {
+      background: rgba(34, 139, 34, 0.2);
+    }
+
+    .day-number {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #8B4513;
+    }
+
+    /* Media Queries for Larger Screens */
+    @media screen and (min-width: 768px) {
+      header {
+        padding: 1.5rem;
+        font-size: 1.8rem;
+      }
+      
+      .nav-toggle-label {
+        display: none;
+      }
+      
+      nav {
+        display: flex;
+        justify-content: center;
+        transform: scale(1, 1);
+        height: auto;
+        overflow: visible;
+      }
+      
+      nav button {
+        width: auto;
+        padding: 1rem 1.5rem;
+        opacity: 1;
+      }
+      
+      section {
+        padding: 1.8rem;
+        max-width: 1000px;
+      }
+      
+      h2 {
+        font-size: 1.8rem;
+      }
+      
+      .features {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      
+      .feature-card {
+        flex: 1 1 calc(50% - 1rem);
+        min-width: 250px;
+      }
+      
+      .links {
+        flex-direction: row;
+        justify-content: center;
+      }
+      
+      .link-btn {
+        padding: 0.8rem 1.5rem;
+      }
+
+      .stats {
+        gap: 1.5rem;
+      }
+
+      .stat-card {
+        flex: 1 1 150px;
+      }
+
+      .calendar {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0.8rem;
+      }
+    }
+
+    @media screen and (min-width: 1024px) {
+      .feature-card {
+        flex: 1 1 calc(33.333% - 1.2rem);
+      }
+    }
+
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .dark-mode-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    /* Animation for elements */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      --primary: #D2691E;
+      --secondary: #8B4513;
+      --light: #3E2723;
+      --text: #FFF8E1;
+      --card-bg: rgba(62, 39, 35, 0.9);
+      --dark: #1E120E;
+    }
+
+    body.dark-mode {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), #1a1a1a;
+    }
+
+    body.dark-mode header {
+      background: linear-gradient(rgba(94, 53, 24, 0.9), rgba(120, 63, 25, 0.9));
+    }
+
+    body.dark-mode nav {
+      background: linear-gradient(rgba(40, 25, 20, 0.95), rgba(50, 30, 25, 0.95));
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #8B4513;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #6B3410;
+    }
+
+    body.dark-mode ::-webkit-scrollbar-track {
+      background: #2E1E15;
+    }
+
+    body.dark-mode ::-webkit-scrollbar-thumb {
+      background: #D2691E;
+    }
+
+    body.dark-mode ::-webkit-scrollbar-thumb:hover {
+      background: #A0522D;
+    }
+
+    /* Loading Animation */
+    .loader {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+      margin: 20px auto;
+      display: none;
+    }
+    .loader:after {
+      content: " ";
+      display: block;
+      width: 64px;
+      height: 64px;
+      margin: 8px;
+      border-radius: 50%;
+      border: 6px solid #8B4513;
+      border-color: #8B4513 transparent #8B4513 transparent;
+      animation: loader 1.2s linear infinite;
+    }
+    @keyframes loader {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+  <header>🎯✨ مُبرمجون تحت التأسيس ✨🎯</header>
+  
+  <nav>
+    <button onclick="showPage('home')"><i class="fas fa-home"></i> الرئيسية</button>
+    <button onclick="showPage('roadmap')"><i class="fas fa-road"></i> الخطة الزمنية</button>
+    <button onclick="showPage('notes')"><i class="fas fa-sticky-note"></i> الملاحظات</button>
+    <button onclick="showPage('videos')"><i class="fas fa-video"></i> الفيديوهات</button>
+    <button onclick="showPage('stats')"><i class="fas fa-chart-bar"></i> الإحصائيات</button>
+  </nav>
+
+  <!-- الصفحة الرئيسية -->
+  <section id="home" class="active">
+    <h2>🌱│ منذ البداية 🚀│ إلى الأمام</h2>
+    <p>
+      💻│ برحلةٍ برمجيةٍ <span class="highlight">مثمرة</span> <br>
+      🖥️ نبدأ من <span class="highlight">الصفر</span> <br>
+      💡 نبني <span class="highlight">الأفكار</span> <br>
+      🎓 نتعلم <span class="highlight">معاً</span> <br>
+      🛠️ نطور <span class="highlight">المهارات</span> <br>
+      📚 نخوض <span class="highlight">التحديات</span> <br>
+      ⚙️ ننجز <span class="highlight">المشاريع</span> <br>
+      👨‍💻│ مسيرة تعليمية 👩‍💻│ لنصنع <span class="highlight">مستقبلاً أجمل</span>
+    </p>
+    
+    <div class="features">
+      <div class="feature-card">
+        <h3>🎯 لماذا نحن؟</h3>
+        <p>✔️ محتوى منهجي <span class="highlight">منظم</span> 📚 <br>
+           ✔️ تدريب عملي على <span class="highlight">مشاريع حقيقية</span> 💻 <br>
+           ✔️ هدفنا: <span class="highlight">تأهيلك لسوق العمل</span></p>
+      </div>
+      
+      <div class="feature-card">
+        <h3>🌍 رؤيتنا</h3>
+        <p>برمجة <span class="highlight">تجمعنا</span> 🚀 إبداع <span class="highlight">لا يتوقف</span><br>
+           مجتمع <span class="highlight">تعاوني</span> يدعم بعضه<br>
+           نرتقي <span class="highlight">بمهاراتنا</span> معاً</p>
+      </div>
+      
+      <div class="feature-card">
+        <h3>📊 إحصائيات</h3>
+        <p>+11 كورس <span class="highlight">تعليمي</span><br>
+           +50 يوم <span class="highlight">تدريبي</span><br>
+           مشاريع عملية <span class="highlight">حقيقية</span><br>
+           متابعة <span class="highlight">مستمرة</span> ودعم فني</p>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number">11</div>
+        <div class="stat-label">كورس تعليمي</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">يوم تدريبي</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">تدعم عملي</div>
+      </div>
+    </div>
+    
+    <div class="links">
+      <a href="https://chat.whatsapp.com/BBUEPV1o1D8CBJRcZ5dIBW" target="_blank" class="link-btn">
+        <i class="fab fa-whatsapp"></i> مجموعة الواتساب
+      </a>
+      <a href="https://linktr.ee/OamrHamdi" target="_blank" class="link-btn">
+        <i class="fas fa-link"></i> الموقع الرسمي
+      </a>
+    </div>
+  </section>
+
+  <!-- الخطة الزمنية -->
+  <section id="roadmap">
+    <h2>📅 الخطة الزمنية</h2>
+
+    <!-- جدول الكورسات -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>الكورس</th>
+            <th>المدة (أيام)</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody id="coursesTable"></tbody>
+      </table>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-container">
+      <h3>تقدمك في الخطة</h3>
+      <div class="progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+      <p>أكملت <span id="completedDays">0</span> من أصل <span id="totalDays">0</span> يوم</p>
+    </div>
+
+    <!-- Calendar View -->
+    <h3>عرض تقويمي</h3>
+    <div class="calendar" id="calendarView"></div>
+
+    <!-- جدول الأيام -->
+    <div class="table-container">
+      <table id="roadmapTable">
+        <thead>
+          <tr>
+            <th>اليوم</th>
+            <th>التاريخ</th>
+            <th>الكورس</th>
+            <th>إكمال ✅</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- الملاحظات -->
+  <section id="notes">
+    <h2>📝 ملاحظاتي</h2>
+    <textarea id="noteInput" placeholder="أضف ملاحظة جديدة..." rows="4"></textarea>
+    <button class="add" onclick="addNote()"><i class="fas fa-plus"></i> إضافة</button>
+    <ul id="notesList"></ul>
+  </section>
+
+  <!-- الفيديوهات -->
+  <section id="videos">
+    <h2>🎥 روابط الفيديوهات</h2>
+    <select id="videoCourse">
+      <option value="">اختر الكورس</option>
+    </select>
+    <input type="text" id="videoTitle" placeholder="عنوان الفيديو...">
+    <input type="text" id="videoInput" placeholder="رابط الفيديو...">
+    <button class="add" onclick="addVideo()"><i class="fas fa-plus"></i> إضافة</button>
+    <ul id="videosList"></ul>
+  </section>
+
+  <!-- الإحصائيات -->
+  <section id="stats">
+    <h2>📊 إحصائيات التقدم</h2>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number" id="totalCourses">11</div>
+        <div class="stat-label">إجمالي الكورسات</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="completedCourses">0</div>
+        <div class="stat-label">كورسات مكتملة</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="completionRate">0%</div>
+        <div class="stat-label">نسبة الإنجاز</div>
+      </div>
+    </div>
+    
+    <h3>تقدم الكورسات</h3>
+    <div id="coursesProgress"></div>
+  </section>
+
+  <button class="dark-mode-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+  <button class="back-to-top" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+
+  <div class="loader" id="loader"></div>
+
+  <script>
+    // حالة التصميم الداكن
+    let darkMode = false;
+
+    // التنقل بين الصفحات
+    function showPage(id) {
+      // إظهار مؤشر التحميل
+      document.getElementById('loader').style.display = 'block';
+      
+      setTimeout(() => {
+        document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        
+        // إغلاق القائمة على الهاتف بعد النقر على عنصر
+        if (window.innerWidth < 768) {
+          document.getElementById('nav-toggle').checked = false;
+        }
+        
+        // إذا كانت صفحة الإحصائيات، قم بتحديثها
+        if (id === 'stats') {
+          updateStats();
+        }
+        
+        // التمرير إلى أعلى الصفحة
+        scrollToTop();
+        
+        // إخفاء مؤشر التحميل
+        document.getElementById('loader').style.display = 'none';
+      }, 300);
+    }
+
+    // التمرير إلى أعلى الصفحة
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // التحكم في زر العودة للأعلى
+    function toggleBackToTopButton() {
+      const backToTopButton = document.querySelector('.back-to-top');
+      if (window.scrollY > 300) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+    }
+
+    // بيانات الكورسات
+    const coursesData = [
+      {name: "CS50", days: 8},
+      {name: "قبل تعلم البرمجة", days: 1},
+      {name: "C++", days: 7},
+      {name: "OOP", days: 1},
+      {name: "Data Structure", days: 5},
+      {name: "Algorithm", days: 7},
+      {name: "Problem Solving", days: 15},
+      {name: "Database", days: 1},
+      {name: "CCNA", days: 4},
+      {name: "Statistics", days: 6},
+      {name: "Probability", days: 7},
+    ];
+
+    // تعبئة جدول الكورسات
+    const coursesTable = document.getElementById("coursesTable");
+    const videoCourseSelect = document.getElementById("videoCourse");
+    
+    function populateCoursesTable() {
+      coursesTable.innerHTML = '';
+      videoCourseSelect.innerHTML = '<option value="">اختر الكورس</option>';
+      
+      coursesData.forEach(c => {
+        let row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${c.name}</td>
+          <td>${c.days}</td>
+          <td><div class="progress"><div class="progress-bar" style="width: 0%">0%</div></div></td>
+        `;
+        coursesTable.appendChild(row);
+
+        let opt = document.createElement("option");
+        opt.value = c.name;
+        opt.innerText = c.name;
+        videoCourseSelect.appendChild(opt);
+      });
+    }
+
+    // جدول الأيام
+    const tableBody = document.querySelector("#roadmapTable tbody");
+    let startDate = new Date("2025-09-01");
+    let totalDays = coursesData.reduce((sum, c) => sum + c.days, 0);
+    let dayCounter = 1;
+    
+    function populateRoadmapTable() {
+      tableBody.innerHTML = '';
+      document.getElementById("totalDays").textContent = totalDays;
+      
+      coursesData.forEach(course => {
+        for(let d=1; d<=course.days; d++){
+          let row = document.createElement("tr");
+          let date = new Date(startDate);
+          date.setDate(startDate.getDate() + (dayCounter-1));
+
+          row.innerHTML = `
+            <td>اليوم ${dayCounter}</td>
+            <td>${date.toLocaleDateString("ar-EG")}</td>
+            <td>${course.name}</td>
+            <td><input type="checkbox" onchange="updateProgress()"></td>
+          `;
+          tableBody.appendChild(row);
+          dayCounter++;
+        }
+      });
+      
+      // تحميل التقدم المحفوظ
+      loadProgress();
+    }
+
+    // إنشاء التقويم
+    function createCalendar() {
+      const calendarView = document.getElementById("calendarView");
+      calendarView.innerHTML = '';
+      
+      // عناوين الأيام
+      const days = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
+      days.forEach(day => {
+        const dayElement = document.createElement('div');
+        dayElement.classList.add('calendar-day');
+        dayElement.textContent = day;
+        dayElement.style.fontWeight = 'bold';
+        calendarView.appendChild(dayElement);
+      });
+      
+      // إضافة الأيام
+      for (let i = 1; i <= totalDays; i++) {
+        const dayElement = document.createElement('div');
+        dayElement.classList.add('calendar-day');
+        dayElement.setAttribute('data-day', i);
+        
+        const dayNumber = document.createElement('div');
+        dayNumber.classList.add('day-number');
+        dayNumber.textContent = i;
+        
+        const dayTitle = document.createElement('div');
+        dayTitle.textContent = `اليوم ${i}`;
+        
+        dayElement.appendChild(dayNumber);
+        dayElement.appendChild(dayTitle);
+        
+        // تحديد إذا كان اليوم الحالي
+        const today = new Date();
+        const dayDate = new Date(startDate);
+        dayDate.setDate(startDate.getDate() + (i-1));
+        
+        if (today.toDateString() === dayDate.toDateString()) {
+          dayElement.classList.add('current');
+        }
+        
+        calendarView.appendChild(dayElement);
+      }
+      
+      // تحديث حالة الأيام في التقويم
+      updateCalendarProgress();
+    }
+    
+    // تحديث حالة الأيام في التقويم
+    function updateCalendarProgress() {
+      const checkboxes = document.querySelectorAll("#roadmapTable input[type=checkbox]");
+      
+      checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+          const dayElement = document.querySelector(`.calendar-day[data-day="${index + 1}"]`);
+          if (dayElement) {
+            dayElement.classList.add('completed');
+          }
+        }
+      });
+    }
+
+    function updateProgress(){
+      let checkboxes = document.querySelectorAll("#roadmapTable input[type=checkbox]");
+      let checked = [...checkboxes].filter(c=>c.checked).length;
+      let percent = Math.round((checked / checkboxes.length) * 100);
+      
+      document.getElementById("progressBar").style.width = percent+"%";
+      document.getElementById("progressBar").innerText = percent+"%";
+      document.getElementById("completedDays").textContent = checked;
+      
+      // تحديث تقدم كل كورس
+      coursesData.forEach(course => {
+        const courseRows = [...tableBody.querySelectorAll("tr")].filter(row => 
+          row.cells[2].textContent === course.name
+        );
+        
+        const courseChecked = courseRows.filter(row => 
+          row.querySelector("input[type=checkbox]").checked
+        ).length;
+        
+        const coursePercent = Math.round((courseChecked / courseRows.length) * 100);
+        
+        // البحث عن صف الكورس في الجدول الأول وتحديث التقدم
+        const courseRow = [...coursesTable.querySelectorAll("tr")].find(row => 
+          row.cells[0].textContent === course.name
+        );
+        
+        if (courseRow) {
+          const progressBar = courseRow.querySelector(".progress-bar");
+          progressBar.style.width = coursePercent + "%";
+          progressBar.textContent = coursePercent + "%";
+        }
+      });
+      
+      // تحديث التقويم
+      updateCalendarProgress();
+      
+      // تحديث الإحصائيات
+      updateStats();
+      
+      // حفظ التقدم
+      saveProgress();
+    }
+
+    // حفظ التقدم في localStorage
+    function saveProgress() {
+      const progress = [];
+      document.querySelectorAll('#roadmapTable input[type=checkbox]').forEach(checkbox => {
+        progress.push(checkbox.checked);
+      });
+      localStorage.setItem('programmerProgress', JSON.stringify(progress));
+    }
+
+    // تحميل التقدم من localStorage
+    function loadProgress() {
+      const progress = JSON.parse(localStorage.getItem('programmerProgress') || '[]');
+      const checkboxes = document.querySelectorAll('#roadmapTable input[type=checkbox]');
+      
+      checkboxes.forEach((checkbox, index) => {
+        if (progress[index]) {
+          checkbox.checked = progress[index];
+        }
+      });
+      
+      updateProgress();
+    }
+
+    // تحديث الإحصائيات
+    function updateStats() {
+      const checkboxes = document.querySelectorAll("#roadmapTable input[type=checkbox]");
+      const checked = [...checkboxes].filter(c=>c.checked).length;
+      const percent = Math.round((checked / checkboxes.length) * 100);
+      
+      document.getElementById("completionRate").textContent = `${percent}%`;
+      
+      // حساب الكورسات المكتملة
+      let completedCourses = 0;
+      coursesData.forEach(course => {
+        const courseRows = [...tableBody.querySelectorAll("tr")].filter(row => 
+          row.cells[2].textContent === course.name
+        );
+        
+        const courseChecked = courseRows.filter(row => 
+          row.querySelector("input[type=checkbox]").checked
+        ).length;
+        
+        if (courseChecked === courseRows.length) {
+          completedCourses++;
+        }
+      });
+      
+      document.getElementById("completedCourses").textContent = completedCourses;
+      
+      // تحديث تقدم الكورسات
+      updateCoursesProgress();
+    }
+
+    // تحديث تقدم الكورسات
+    function updateCoursesProgress() {
+      const coursesProgress = document.getElementById("coursesProgress");
+      coursesProgress.innerHTML = '';
+      
+      coursesData.forEach(course => {
+        const courseRows = [...tableBody.querySelectorAll("tr")].filter(row => 
+          row.cells[2].textContent === course.name
+        );
+        
+        const courseChecked = courseRows.filter(row => 
+          row.querySelector("input[type=checkbox]").checked
+        ).length;
+        
+        const coursePercent = Math.round((courseChecked / courseRows.length) * 100);
+        
+        const courseElement = document.createElement('div');
+        courseElement.classList.add('progress-container');
+        courseElement.innerHTML = `
+          <h4>${course.name} (${coursePercent}%)</h4>
+          <div class="progress">
+            <div class="progress-bar" style="width: ${coursePercent}%">${coursePercent}%</div>
+          </div>
+        `;
+        
+        coursesProgress.appendChild(courseElement);
+      });
+    }
+
+    // الملاحظات
+    function addNote(){
+      let note = document.getElementById("noteInput").value;
+      if(note.trim() === "") return;
+      
+      let li = document.createElement("li");
+      li.innerHTML = `
+        <div class="note-content">${note}</div>
+        <button class="delete-btn" onclick="this.parentElement.remove(); saveNotes();"><i class="fas fa-times"></i></button>
+      `;
+      
+      document.getElementById("notesList").appendChild(li);
+      document.getElementById("noteInput").value = "";
+      
+      // حفظ الملاحظات في localStorage
+      saveNotes();
+    }
+
+    // حفظ الملاحظات
+    function saveNotes() {
+      const notes = [];
+      document.querySelectorAll('#notesList .note-content').forEach(note => {
+        notes.push(note.textContent);
+      });
+      localStorage.setItem('programmerNotes', JSON.stringify(notes));
+    }
+
+    // تحميل الملاحظات
+    function loadNotes() {
+      const notes = JSON.parse(localStorage.getItem('programmerNotes') || '[]');
+      const notesList = document.getElementById("notesList");
+      notesList.innerHTML = '';
+      
+      notes.forEach(note => {
+        let li = document.createElement("li");
+        li.innerHTML = `
+          <div class="note-content">${note}</div>
+          <button class="delete-btn" onclick="this.parentElement.remove(); saveNotes();"><i class="fas fa-times"></i></button>
+        `;
+        notesList.appendChild(li);
+      });
+    }
+
+    // الفيديوهات
+    function addVideo(){
+      let course = document.getElementById("videoCourse").value;
+      let title = document.getElementById("videoTitle").value;
+      let url = document.getElementById("videoInput").value;
+      if(course==="" || title.trim()==="" || url.trim()==="") return;
+
+      // التأكد من أن الرابط يحتوي على http:// أو https://
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+      }
+
+      let li = document.createElement("li");
+      li.className = "video-item";
+      li.innerHTML = `
+        <div class="video-meta">${course}</div>
+        <div class="video-title">${title}</div>
+        <div><i class="fas fa-link"></i> <a href="${url}" target="_blank">${url}</a></div>
+        <button class="delete-btn" onclick="this.parentElement.remove(); saveVideos();" style="align-self: flex-end; margin-top: 10px;">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      
+      document.getElementById("videosList").appendChild(li);
+
+      document.getElementById("videoCourse").value = "";
+      document.getElementById("videoTitle").value = "";
+      document.getElementById("videoInput").value = "";
+      
+      // حفظ الفيديوهات
+      saveVideos();
+    }
+
+    // حفظ الفيديوهات
+    function saveVideos() {
+      const videos = [];
+      document.querySelectorAll('#videosList li').forEach(video => {
+        videos.push({
+          course: video.querySelector('.video-meta').textContent,
+          title: video.querySelector('.video-title').textContent,
+          url: video.querySelector('a').href
+        });
+      });
+      localStorage.setItem('programmerVideos', JSON.stringify(videos));
+    }
+
+    // تحميل الفيديوهات
+    function loadVideos() {
+      const videos = JSON.parse(localStorage.getItem('programmerVideos') || '[]');
+      const videosList = document.getElementById("videosList");
+      videosList.innerHTML = '';
+      
+      videos.forEach(video => {
+        let li = document.createElement("li");
+        li.className = "video-item";
+        li.innerHTML = `
+          <div class="video-meta">${video.course}</div>
+          <div class="video-title">${video.title}</div>
+          <div><i class="fas fa-link"></i> <a href="${video.url}" target="_blank">${video.url}</a></div>
+          <button class="delete-btn" onclick="this.parentElement.remove(); saveVideos();" style="align-self: flex-end; margin-top: 10px;">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+        videosList.appendChild(li);
+      });
+    }
+    
+    // التبديل بين الوضع الداكن والفاتح
+    function toggleDarkMode() {
+      darkMode = !darkMode;
+      const toggleBtn = document.querySelector('.dark-mode-toggle');
+      
+      if (darkMode) {
+        document.body.classList.add('dark-mode');
+        toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        document.body.classList.remove('dark-mode');
+        toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+      
+      localStorage.setItem('darkMode', darkMode);
+    }
+
+    // تحميل الوضع الداكن من localStorage
+    function loadDarkMode() {
+      const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (savedDarkMode) {
+        darkMode = true;
+        toggleDarkMode();
+      }
+    }
+    
+    // السماح بإضافة الملاحظة بالضغط على Enter
+    document.getElementById("noteInput").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addNote();
+      }
+    });
+
+    // إغلاق القائمة عند النقر خارجها (للأجهزة المحمولة)
+    document.addEventListener('click', function(event) {
+      const nav = document.querySelector('nav');
+      const navToggle = document.getElementById('nav-toggle');
+      const navToggleLabel = document.querySelector('.nav-toggle-label');
+      
+      if (window.innerWidth < 768 && 
+          navToggle.checked && 
+          !nav.contains(event.target) && 
+          !navToggleLabel.contains(event.target)) {
+        navToggle.checked = false;
+      }
+    });
+
+    // تهيئة الصفحة عند التحميل
+    window.onload = function() {
+      populateCoursesTable();
+      populateRoadmapTable();
+      createCalendar();
+      loadNotes();
+      loadVideos();
+      loadDarkMode();
+      updateStats();
+      
+      // إضافة مستمع حدث للتمرير
+      window.addEventListener('scroll', toggleBackToTopButton);
+    };
+  </script>
+</body>
+</html>
