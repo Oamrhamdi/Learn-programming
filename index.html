@@ -513,49 +513,6 @@
       color: #6D4C41;
     }
 
-    /* Calendar View */
-    .calendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 0.5rem;
-      margin: 1.5rem 0;
-    }
-
-    .calendar-day {
-      background: var(--card-bg);
-      padding: 0.5rem;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      border: 1px solid #A1887F;
-      font-size: 0.8rem;
-      min-height: 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .calendar-day:hover {
-      transform: scale(1.05);
-    }
-
-    .calendar-day.current {
-      background: rgba(139, 69, 19, 0.2);
-      font-weight: bold;
-      box-shadow: 0 0 0 2px #8B4513;
-    }
-
-    .calendar-day.completed {
-      background: rgba(34, 139, 34, 0.2);
-    }
-
-    .day-number {
-      font-size: 1rem;
-      font-weight: bold;
-      color: #8B4513;
-    }
-
     /* Media Queries for Larger Screens */
     @media screen and (min-width: 768px) {
       header {
@@ -615,11 +572,6 @@
 
       .stat-card {
         flex: 1 1 150px;
-      }
-
-      .calendar {
-        grid-template-columns: repeat(7, 1fr);
-        gap: 0.8rem;
       }
     }
 
@@ -879,10 +831,6 @@
       <p>أكملت <span id="completedDays">0</span> من أصل <span id="totalDays">0</span> يوم</p>
     </div>
 
-    <!-- Calendar View -->
-    <h3>عرض تقويمي</h3>
-    <div class="calendar" id="calendarView"></div>
-
     <!-- جدول الأيام -->
     <div class="table-container">
       <table id="roadmapTable">
@@ -1066,67 +1014,6 @@
       loadProgress();
     }
 
-    // إنشاء التقويم
-    function createCalendar() {
-      const calendarView = document.getElementById("calendarView");
-      calendarView.innerHTML = '';
-      
-      // عناوين الأيام
-      const days = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
-      days.forEach(day => {
-        const dayElement = document.createElement('div');
-        dayElement.classList.add('calendar-day');
-        dayElement.textContent = day;
-        dayElement.style.fontWeight = 'bold';
-        calendarView.appendChild(dayElement);
-      });
-      
-      // إضافة الأيام
-      for (let i = 1; i <= totalDays; i++) {
-        const dayElement = document.createElement('div');
-        dayElement.classList.add('calendar-day');
-        dayElement.setAttribute('data-day', i);
-        
-        const dayNumber = document.createElement('div');
-        dayNumber.classList.add('day-number');
-        dayNumber.textContent = i;
-        
-        const dayTitle = document.createElement('div');
-        dayTitle.textContent = `اليوم ${i}`;
-        
-        dayElement.appendChild(dayNumber);
-        dayElement.appendChild(dayTitle);
-        
-        // تحديد إذا كان اليوم الحالي
-        const today = new Date();
-        const dayDate = new Date(startDate);
-        dayDate.setDate(startDate.getDate() + (i-1));
-        
-        if (today.toDateString() === dayDate.toDateString()) {
-          dayElement.classList.add('current');
-        }
-        
-        calendarView.appendChild(dayElement);
-      }
-      
-      // تحديث حالة الأيام في التقويم
-      updateCalendarProgress();
-    }
-    
-    // تحديث حالة الأيام في التقويم
-    function updateCalendarProgress() {
-      const checkboxes = document.querySelectorAll("#roadmapTable input[type=checkbox]");
-      
-      checkboxes.forEach((checkbox, index) => {
-        if (checkbox.checked) {
-          const dayElement = document.querySelector(`.calendar-day[data-day="${index + 1}"]`);
-          if (dayElement) {
-            dayElement.classList.add('completed');
-          }
-        }
-      });
-    }
-
     function updateProgress(){
       let checkboxes = document.querySelectorAll("#roadmapTable input[type=checkbox]");
       let checked = [...checkboxes].filter(c=>c.checked).length;
@@ -1159,9 +1046,6 @@
           progressBar.textContent = coursePercent + "%";
         }
       });
-      
-      // تحديث التقويم
-      updateCalendarProgress();
       
       // تحديث الإحصائيات
       updateStats();
@@ -1413,7 +1297,6 @@
     window.onload = function() {
       populateCoursesTable();
       populateRoadmapTable();
-      createCalendar();
       loadNotes();
       loadVideos();
       loadDarkMode();
@@ -1424,4 +1307,4 @@
     };
   </script>
 </body>
-</html>
+                              </html>
